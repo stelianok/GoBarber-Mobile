@@ -5,12 +5,12 @@ import { NavigationContainer } from '@react-navigation/native'
 import Routes from './routes';
 const App: React.FC = () => {
   return (
-    <NavigationContainer
-
-    >
+    <>
       <StatusBar backgroundColor={'#312e38'} />
-      <Routes />
-    </NavigationContainer >
+      <NavigationContainer>
+        <Routes />
+      </NavigationContainer >
+    </>
   )
 };
 
