@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { TextInputProps } from 'react-native';
 import { Container, TextInput } from './styles';
 import Icon from 'react-native-vector-icons/Feather';
@@ -20,11 +20,23 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ico
   const { registerField, defaultValue = '', fieldName, error } = useField(name);
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, [])
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
+    setIsFilled(!!inputValueRef.current.value);
+  }, []);
   useImperativeHandle(ref, () => ({
     focus() {
       inputElementRef.current.focus();
     }
   }));
+
   useEffect(() => {
     registerField<string>({
       name: fieldName,
@@ -41,13 +53,15 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ico
     });
   }, [fieldName, registerField]);
   return (
-    <Container>
-      <Icon name={icon} size={20} color="#666360" />
+    <Container isFocused={isFocused}>
+      <Icon name={icon} size={20} color={isFilled || isFocused ? '#FF9000' : '#666360'} />
       <TextInput
         ref={inputElementRef}
         keyboardAppearance="dark"
         placeholderTextColor="#666360"
         defaultValue={defaultValue}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
         onChangeText={(value) => {
           inputValueRef.current.value = value;
         }}
