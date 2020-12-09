@@ -18,7 +18,7 @@ import {
   CreateAccountButtonText
 } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
-
+import { useAuth } from '../../hooks/auth';
 interface SignInFormData {
   email: string;
   password: string;
@@ -28,6 +28,9 @@ const SignIn: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
 
   const navigation = useNavigation();
+
+  const { signIn, } = useAuth();
+
   const handleSignIn = useCallback(
     async (data: SignInFormData) => {
       try {
@@ -43,7 +46,7 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        // await signIn({ email: data.email, password: data.password });
+        await signIn({ email: data.email, password: data.password });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
