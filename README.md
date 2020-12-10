@@ -1,7 +1,7 @@
 <h1 align="center">💜 GoBarber Mobile 💜</h1>
 
 <p align="center">
-<img src="https://octodex.github.com/images/gobbleotron.gif" align="center" width="400" height="400"></img>
+
 </p>
 
 <!-- Examples of your project working -->
