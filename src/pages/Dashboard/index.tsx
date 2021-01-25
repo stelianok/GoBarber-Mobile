@@ -31,20 +31,22 @@ const Dashboard: React.FC = () => {
   const { navigate } = useNavigation();
 
   const [providers, setProviders] = useState<Provider[]>([]);
+
   useEffect(() => {
     api.get('/providers')
       .then((response) => {
         setProviders(response.data);
       });
   }, [])
+
   const navigateToProfile = useCallback(() => {
-    // navigate('Profile')
-    signOut();
-  }, [signOut]);
+    navigate('Profile')
+  }, [navigate]);
 
   const navigateToCreateAppointment = useCallback((providerId: string) => {
     navigate('CreateAppointment', { providerId })
   }, [navigate]);
+
   return (
     <Container>
       <Header>

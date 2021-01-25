@@ -4,6 +4,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 interface ContainerProps {
   isFocused: boolean;
   isErrored: boolean;
+  containerStyle?: {},
 }
 export const Container = styled.View<ContainerProps>`
   width: 80%;
