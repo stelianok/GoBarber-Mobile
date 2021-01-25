@@ -30,7 +30,7 @@ import {
   CreateAppointmentButtonText,
 } from './styles';
 import api from '../../services/api';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { format } from 'date-fns';
 interface RouteParams {
   providerId: string;
@@ -143,12 +143,15 @@ const CreateAppointment: React.FC = () => {
         date,
       });
 
-      navigate('AppointmentCreated', { date: date.getTime });
+      navigate('AppointmentCreated', { date: date.getTime() });
     }
     catch (err) {
-      console.log(err);
+      Alert.alert(
+        'Erro ao criar agendamento',
+        'Ocorreu um erro ao tentar criar o agendamento tente novamente.',
+      )
     }
-  }, []);
+  }, [navigate, selectedDate, selectedHour, selectedProvider]);
   return (
     <Container>
       <Header>
@@ -242,7 +245,7 @@ const CreateAppointment: React.FC = () => {
             </SectionContent>
           </Section>
         </Schedule>
-        <CreateAppointmentButton onPress={() => { handleCreateAppointment }}>
+        <CreateAppointmentButton onPress={handleCreateAppointment}>
           <CreateAppointmentButtonText>
             Agendar
           </CreateAppointmentButtonText>
